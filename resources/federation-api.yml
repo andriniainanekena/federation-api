@@ -10,8 +10,6 @@ info:
 servers:
   - url: http://localhost:8080
     description: Serveur local de développement
-  - url: https://api.federation-agricole.mg
-    description: Serveur principal
 
 tags:
   - name: Collectivités
