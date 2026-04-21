@@ -1,4 +1,12 @@
 CREATE TYPE gender_enum AS ENUM ('MALE', 'FEMALE');
+CREATE TYPE occupation_enum AS ENUM (
+    'JUNIOR',
+    'SENIOR',
+    'SECRETARY',
+    'TREASURER',
+    'VICE_PRESIDENT',
+    'PRESIDENT'
+    );
 
 CREATE TABLE member (
     id SERIAL PRIMARY KEY,
@@ -19,3 +27,18 @@ CREATE TABLE collectivity (
     date_creation DATE NOT NULL,
     federation_approval BOOLEAN NOT NULL
 );
+
+ALTER TABLE member
+    ADD COLUMN occupation occupation_enum NOT NULL;
+
+ALTER TABLE member
+    ADD COLUMN collectivity_id INT;
+
+ALTER TABLE member
+    ADD CONSTRAINT fk_member_collectivity
+        FOREIGN KEY (collectivity_id)
+            REFERENCES collectivity(id)
+            ON DELETE SET NULL;
+
+ALTER TABLE collectivity
+    DROP COLUMN federation_approval;
