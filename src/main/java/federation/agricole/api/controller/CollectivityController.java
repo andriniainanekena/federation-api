@@ -1,5 +1,6 @@
 package federation.agricole.api.controller;
 
+
 import federation.agricole.api.dto.CollectivityRest;
 import federation.agricole.api.dto.CollectivityStructureRest;
 import federation.agricole.api.dto.CreateCollectivityRest;
