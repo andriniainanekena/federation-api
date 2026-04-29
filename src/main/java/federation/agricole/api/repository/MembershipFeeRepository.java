@@ -1,6 +1,5 @@
 package federation.agricole.api.repository;
 
-
 import federation.agricole.api.entity.ActivityStatusEnum;
 import federation.agricole.api.entity.FrequencyEnum;
 import federation.agricole.api.entity.MembershipFee;

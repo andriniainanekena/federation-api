@@ -16,8 +16,8 @@ public class CollectivityTransactionRepository {
     FinancialAccountRepository financialAccountRepository;
 
     public CollectivityTransactionRepository(Connection connection,
-                                             MemberRepository memberRepository,
-                                             FinancialAccountRepository financialAccountRepository) {
+                                              MemberRepository memberRepository,
+                                              FinancialAccountRepository financialAccountRepository) {
         this.connection = connection;
         this.memberRepository = memberRepository;
         this.financialAccountRepository = financialAccountRepository;
