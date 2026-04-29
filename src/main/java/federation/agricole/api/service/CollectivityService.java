@@ -24,7 +24,7 @@ public class CollectivityService {
     MemberRepository memberRepository;
 
     public CollectivityService(CollectivityRepository collectivityRepository,
-                               MemberRepository memberRepository) {
+                                MemberRepository memberRepository) {
         this.collectivityRepository = collectivityRepository;
         this.memberRepository = memberRepository;
     }
@@ -55,7 +55,6 @@ public class CollectivityService {
                 "Collectivity structure is incomplete: president, vicePresident, treasurer and secretary are required"
             );
         }
-
 
         List<String> memberIds = createCollectivityRest.getMembers();
         if (memberIds == null || memberIds.size() < 10) {
@@ -94,7 +93,6 @@ public class CollectivityService {
             }
             members.add(optionalMember.get());
         }
-
 
         LocalDate sixMonthsAgo = LocalDate.now().minusMonths(6);
         long seniorFederationMembersCount = members.stream()

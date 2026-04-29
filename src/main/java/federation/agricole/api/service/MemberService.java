@@ -51,7 +51,6 @@ public class MemberService {
         if (!createMemberRest.isMembershipDuesPaid()) {
             throw new BadRequestException("Membership dues must be paid before admission");
         }
-
         List<String> refereeIds = createMemberRest.getReferees();
         if (refereeIds == null || refereeIds.size() < 2) {
             throw new BadRequestException("At least 2 referees are required for admission");
@@ -65,7 +64,6 @@ public class MemberService {
             }
             referees.add(optionalReferee.get());
         }
-
         for (Member referee : referees) {
             if (!MemberOccupationEnum.SENIOR.equals(referee.getOccupation())) {
                 throw new BadRequestException(
