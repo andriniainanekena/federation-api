@@ -1,0 +1,135 @@
+openapi: 3.1.0
+info:
+  title: Agricultural federation API
+  description: |
+    # Versioning
+    This API uses semantic versioning (MAJOR.MINOR.PATCH). Available versions are :
+    - v0.0.1 (2026-04-21) : POST /collectivities for collectivities creation and POST /members for members creation.
+    - v0.0.2 (2026-04-22) : POST /collectivities/{collectivityId}/contributions for contributions recording (C)
+                             and POST+GET /collectivities/{collectivityId}/accounts for treasury management (D).
+  version: 0.0.2
+servers:
+  - url: 'https://localhost:8080'
+
+paths:
+
+  # -----------------------------------------------------------------------
+  # v0.0.1 - A : Creation de collectivites
+  # -----------------------------------------------------------------------
+  '/collectivities':
+    post:
+      summary: Create list of collectivities
+      description: |
+        During collectivity request body creation, only members ID are provided to identify members.
+        But the response content includes members information, not only their IDs.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CreateCollectivity'
+      responses:
+        201:
+          description: List of created collectivities
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Collectivity'
+        400:
+          description: Collectivity without federation approval or structure missing.
+        404:
+          description: Member not found.
+
+  # -----------------------------------------------------------------------
+  # v0.0.1 - B-2 : Admission d'un nouveau membre
+  # -----------------------------------------------------------------------
+  '/members':
+    post:
+      summary: Create list of members
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CreateMember'
+      responses:
+        201:
+          description: List of created members
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Member'
+        400:
+          description: |
+            The following case must return a bad request exception :
+            - Member with bad referees or without proper payment.
+            - Membership dues not paid or registration fee not paid.
+        404:
+          description: Either collectivity or member not found.
+
+  # -----------------------------------------------------------------------
+  # v0.0.2 - C : Cotisations et paiements
+  # -----------------------------------------------------------------------
+  '/collectivities/{collectivityId}/contributions':
+    post:
+      summary: Record a list of contributions for a collectivity
+      description: |
+        The treasurer records one or several contributions (cotisations) for a collectivity.
+        Each contribution must include the amount, the date, the payment mode and the contribution type.
+        The member paying the contribution must belong to the collectivity.
+      parameters:
+        - name: collectivityId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the collectivity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CreateContribution'
+      responses:
+        201:
+          description: List of recorded contributions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Contribution'
+        400:
+          description: Invalid contribution data (missing fields or invalid payment mode).
+        404:
+          description: Collectivity or member not found.
+
+    get:
+      summary: Get all contributions of a collectivity
+      description: Returns the list of all contributions recorded for a given collectivity.
+      parameters:
+        - name: collectivityId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the collectivity
+      responses:
+        200:
+          description: List of contributions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Contribution'
+        404:
+          description: Collectivity not found.
+
