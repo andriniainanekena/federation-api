@@ -1,6 +1,5 @@
 package federation.agricole.api.dto;
 
-
 import federation.agricole.api.entity.PaymentModeEnum;
 
 import java.time.LocalDate;

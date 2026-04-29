@@ -1,10 +1,7 @@
 package federation.agricole.api.dto;
 
-
 import federation.agricole.api.entity.BankEnum;
-import lombok.Getter;
 
-@Getter
 public class BankAccountRest {
     private String id;
     private String holderName;
@@ -28,4 +25,12 @@ public class BankAccountRest {
         this.amount = amount;
     }
 
+    public String getId() { return id; }
+    public String getHolderName() { return holderName; }
+    public BankEnum getBankName() { return bankName; }
+    public Integer getBankCode() { return bankCode; }
+    public Integer getBankBranchCode() { return bankBranchCode; }
+    public Integer getBankAccountNumber() { return bankAccountNumber; }
+    public Integer getBankAccountKey() { return bankAccountKey; }
+    public Double getAmount() { return amount; }
 }

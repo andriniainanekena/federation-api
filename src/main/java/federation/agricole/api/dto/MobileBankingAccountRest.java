@@ -1,10 +1,7 @@
 package federation.agricole.api.dto;
 
-
 import federation.agricole.api.entity.MobileBankingServiceEnum;
-import lombok.Getter;
 
-@Getter
 public class MobileBankingAccountRest {
     private String id;
     private String holderName;
@@ -22,4 +19,9 @@ public class MobileBankingAccountRest {
         this.amount = amount;
     }
 
+    public String getId() { return id; }
+    public String getHolderName() { return holderName; }
+    public MobileBankingServiceEnum getMobileBankingService() { return mobileBankingService; }
+    public String getMobileNumber() { return mobileNumber; }
+    public Double getAmount() { return amount; }
 }

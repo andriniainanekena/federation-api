@@ -1,10 +1,5 @@
 package federation.agricole.api.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
-@Getter
-@AllArgsConstructor
 public class CreateCollectivityStructureRest {
     private String president;
     private String vicePresident;
@@ -14,4 +9,15 @@ public class CreateCollectivityStructureRest {
     public CreateCollectivityStructureRest() {
     }
 
+    public String getPresident() { return president; }
+    public void setPresident(String president) { this.president = president; }
+
+    public String getVicePresident() { return vicePresident; }
+    public void setVicePresident(String vicePresident) { this.vicePresident = vicePresident; }
+
+    public String getTreasurer() { return treasurer; }
+    public void setTreasurer(String treasurer) { this.treasurer = treasurer; }
+
+    public String getSecretary() { return secretary; }
+    public void setSecretary(String secretary) { this.secretary = secretary; }
 }

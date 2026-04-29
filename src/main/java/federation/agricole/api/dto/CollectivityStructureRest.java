@@ -1,10 +1,5 @@
 package federation.agricole.api.dto;
 
-import lombok.Getter;
-import lombok.ToString;
-
-@Getter
-@ToString
 public class CollectivityStructureRest {
     private MemberRest president;
     private MemberRest vicePresident;
@@ -19,4 +14,8 @@ public class CollectivityStructureRest {
         this.secretary = secretary;
     }
 
+    public MemberRest getPresident() { return president; }
+    public MemberRest getVicePresident() { return vicePresident; }
+    public MemberRest getTreasurer() { return treasurer; }
+    public MemberRest getSecretary() { return secretary; }
 }
