@@ -5,6 +5,10 @@ public class CollectivityInformationRest {
     private Integer number;
 
     public CollectivityInformationRest() {}
+    public CollectivityInformationRest(String name, Integer number) {
+        this.name = name;
+        this.number = number;
+    }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
