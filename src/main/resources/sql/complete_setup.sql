@@ -34,7 +34,7 @@ CREATE TABLE member (
     collectivity_id VARCHAR REFERENCES collectivity(id)
 );
 
--- Table junction collectivity_member (membre peut etre dans plusieurs collectivites)
+-- Table junction collectivity_member
 CREATE TABLE collectivity_member (
     collectivity_id VARCHAR NOT NULL REFERENCES collectivity(id) ON DELETE CASCADE,
     member_id       VARCHAR NOT NULL REFERENCES member(id) ON DELETE CASCADE,
@@ -106,4 +106,33 @@ CREATE TABLE collectivity_transaction (
     payment_mode        payment_mode_enum NOT NULL,
     account_credited_id VARCHAR NOT NULL REFERENCES financial_account(id),
     member_debited_id   VARCHAR NOT NULL REFERENCES member(id)
+);
+
+CREATE TYPE activity_type_enum AS ENUM ('MEETING', 'TRAINING', 'OTHER');
+CREATE TYPE day_of_week_enum AS ENUM ('MO', 'TU', 'WE', 'TH', 'FR', 'SA', 'SU');
+CREATE TYPE attendance_status_enum AS ENUM ('MISSING', 'ATTENDED', 'UNDEFINED');
+
+-- Table des activités d'une collectivité
+CREATE TABLE collectivity_activity (
+       id                          VARCHAR PRIMARY KEY,
+       collectivity_id             VARCHAR NOT NULL REFERENCES collectivity(id) ON DELETE CASCADE,
+       label                       VARCHAR(255),
+       activity_type               activity_type_enum NOT NULL,
+       member_occupation_concerned TEXT,
+       week_ordinal                INTEGER CHECK (week_ordinal BETWEEN 1 AND 5),
+       day_of_week                 day_of_week_enum,
+       executive_date              DATE,
+       CONSTRAINT check_recurrence_xor_date CHECK (
+           (week_ordinal IS NOT NULL AND day_of_week IS NOT NULL AND executive_date IS NULL)
+               OR (week_ordinal IS NULL AND day_of_week IS NULL AND executive_date IS NOT NULL)
+           )
+);
+
+-- Table des présences aux activites
+CREATE TABLE activity_attendance (
+     id                VARCHAR PRIMARY KEY,
+     activity_id       VARCHAR NOT NULL REFERENCES collectivity_activity(id) ON DELETE CASCADE,
+     member_id         VARCHAR NOT NULL REFERENCES member(id),
+     attendance_status attendance_status_enum NOT NULL DEFAULT 'UNDEFINED',
+     UNIQUE (activity_id, member_id)
 );

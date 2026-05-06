@@ -6,6 +6,7 @@ import federation.agricole.api.entity.Member;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,16 +31,22 @@ public class CollectivityRepository {
         } catch (SQLException e) { throw new RuntimeException(e); }
     }
 
+    public List<String> findAllIds() {
+        List<String> ids = new ArrayList<>();
+        try {
+            PreparedStatement ps = connection.prepareStatement("SELECT id FROM collectivity ORDER BY id");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) ids.add(rs.getString("id"));
+            return ids;
+        } catch (SQLException e) { throw new RuntimeException(e); }
+    }
+
     public Optional<Collectivity> findByIdFull(String id) {
         Optional<Collectivity> opt = findById(id);
         if (opt.isEmpty()) return Optional.empty();
         Collectivity c = opt.get();
-
-        // Chargement des membres via junction table
         List<Member> members = memberRepository.findAllByCollectivityId(id);
         c.setMembers(members);
-
-        // Chargement du bureau
         try {
             PreparedStatement ps = connection.prepareStatement(
                     "SELECT president_id,vice_president_id,treasurer_id,secretary_id FROM collectivity_structure WHERE collectivity_id=?");
@@ -55,7 +62,6 @@ public class CollectivityRepository {
                 c.setStructure(structure);
             }
         } catch (SQLException e) { throw new RuntimeException(e); }
-
         return Optional.of(c);
     }
 
