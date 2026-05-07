@@ -43,13 +43,9 @@ public class FinancialAccountRepository {
         } catch (SQLException e) { throw new RuntimeException(e); }
     }
 
-    // Calcule le solde d'un compte à une date donnée :
-    // solde = montant initial (avant toute transaction) + somme des transactions jusqu'à cette date
-    // On calcule : montant actuel - transactions après 'at' = solde à 'at'
     public List<FinancialAccount> findAllByCollectivityIdAt(String collectivityId, LocalDate at) {
         List<FinancialAccount> accounts = new ArrayList<>();
         try {
-            // Solde à la date 'at' = solde actuel - SUM des transactions après 'at'
             PreparedStatement ps = connection.prepareStatement(
                     """
                     SELECT fa.id, fa.collectivity_id, fa.account_type, fa.holder_name,

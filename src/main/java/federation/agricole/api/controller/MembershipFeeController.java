@@ -38,7 +38,7 @@ public class MembershipFeeController {
     public ResponseEntity<?> createMembershipFees(@PathVariable String id,
                                                    @RequestBody List<CreateMembershipFeeRest> dtoList) {
         try {
-            return ResponseEntity.status(HttpStatus.OK)
+            return ResponseEntity.status(HttpStatus.CREATED)
                     .body(membershipFeeService.createMembershipFees(id, dtoList).stream()
                             .map(fee -> new MembershipFeeRest(fee.getId(), fee.getEligibleFrom(),
                                     fee.getFrequency(), fee.getAmount(), fee.getLabel(), fee.getStatus()))
