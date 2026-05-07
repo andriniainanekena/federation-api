@@ -38,9 +38,12 @@ public class ActivityController {
     public ResponseEntity<?> createActivities(@PathVariable String id,
                                                @RequestBody List<CreateCollectivityActivityRest> dtoList) {
         try {
-            return ResponseEntity.ok(
-                activityService.createActivities(id, dtoList).stream()
-                    .map(this::toActivityRest).toList());
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(
+                            activityService.createActivities(id, dtoList).stream()
+                                    .map(this::toActivityRest)
+                                    .toList()
+                    );
         } catch (BadRequestException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (NotFoundException e) {
@@ -71,7 +74,7 @@ public class ActivityController {
     public ResponseEntity<?> getAttendance(@PathVariable String id,
                                             @PathVariable String activityId) {
         try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(
+            return ResponseEntity.status(HttpStatus.OK).body(
                 activityService.getAttendance(id, activityId).stream()
                     .map(this::toAttendanceRest).toList());
         } catch (NotFoundException e) {
